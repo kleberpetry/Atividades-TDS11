@@ -29,8 +29,40 @@ void listarFerramentas(ferramenta ferramentas[],int contador){
 	}
 	system("pause");
 }
-void buscarFerramentas();
-void atualizarQuantidade();
+void buscarFerramentas(ferramenta ferramentas[],int contador){
+	int x,igual;
+	char nomeFerramenta[40];
+	system("cls");
+	printf("\nDigite o nome da ferramenta: ");
+	fflush(stdin);
+	gets(nomeFerramenta);
+	for(x=0;x<contador;x++){
+		if((strcmp(nomeFerramenta,ferramentas[x].nome))==0){
+			printf("\nCodigo: %d",ferramentas[x].codigo);
+			printf("\nNome: %s",ferramentas[x].nome);
+			printf("\nQuantidade: %d",ferramentas[x].quantidade);
+			printf("\nDisponível: %d\n",ferramentas[x].disponivel);
+			system("pause");
+			break;
+		}
+	}
+}
+void atualizarQuantidade(ferramenta ferramentas[],int contador){
+	int x,codigo,novaQuantidade,diferencaQuantidade;
+	system("cls");
+	printf("\nDigite o codigo da ferramenta: ");
+	scanf("%d",&codigo);
+	for(x=0;x<contador;x++){
+		if(codigo==ferramentas[x].codigo){
+			printf("\nDigite a nova quantidade de ferramentas:");
+			scanf("%d",&novaQuantidade);
+			diferencaQuantidade=novaQuantidade-ferramentas[x].quantidade;
+			ferramentas[x].quantidade=novaQuantidade;
+			ferramentas[x].disponivel+=diferencaQuantidade;
+		}
+	}
+	
+}
 void reservarFerramenta();
 void devolverFerramenta();
 int menu(){
@@ -63,8 +95,10 @@ int main(){
 				listarFerramentas(ferramentas,contador);
 				break;
 			case 3:
+				buscarFerramentas(ferramentas,contador);
 				break;
 			case 4:
+				atualizarQuantidade(ferramentas,contador);
 				break;
 			case 5:
 				break;
