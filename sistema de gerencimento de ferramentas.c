@@ -9,6 +9,14 @@ typedef struct{
 	int disponivel;
 }ferramenta;
 
+typedef struct{
+	char nomeLocatario[40];
+	int ferramentaEmprestada;
+	char dataEntrada[40];
+	char dataSaida[40];
+}emprestimo;
+
+
 void cadastrarFerramentas(ferramenta ferramentas[],int contador){
 	system("cls");
 	ferramentas[contador].codigo=contador+1;
@@ -63,7 +71,36 @@ void atualizarQuantidade(ferramenta ferramentas[],int contador){
 	}
 	
 }
-void reservarFerramenta();
+void reservarFerramenta(ferramenta ferramentas[],int codEmprestimo,int contador){
+	emprestimo emprestado[100];
+	int qtde;
+	system("cls");
+	fflush(stdin);
+	printf("Digite o nome do locatário: ");
+	gets(emprestado[codEmprestimo].nomeLocatario);
+	printf("digite o codigo da ferramenta: ");
+	scanf("%d",&emprestado[codEmprestimo].ferramentaEmprestada);
+	printf("Digite a quantidade de ferramentas: ");
+	scanf("%d",&qtde);
+	fflush(stdin);
+	printf("Digite a data de saida:");
+	gets(emprestado[codEmprestimo].dataSaida);
+	//-------------------------------
+	int x;
+	for(x=0;x<contador;x++){
+		if(emprestado[codEmprestimo].ferramentaEmprestada==ferramentas[x].codigo){
+			if(qtde<ferramentas[x].disponivel){
+				ferramentas[x].disponivel-=qtde;
+				printf("\nEmprestimo realizado com sucesso!\n");
+				system("pause");
+				
+			}else{
+				printf("\nQuantidade de retirada superior a disponivel!\n");
+				system("pause");
+			}
+		}
+	}
+}
 void devolverFerramenta();
 int menu(){
 	int opcao;
@@ -82,7 +119,7 @@ int menu(){
 
 int main(){
 	setlocale(LC_ALL, "Portuguese");
-	int opcao,contador=0;
+	int opcao,codigoEmprestimo=0,contador=0;
 	ferramenta ferramentas[100];
 	do{
 		opcao=menu();
@@ -101,8 +138,10 @@ int main(){
 				atualizarQuantidade(ferramentas,contador);
 				break;
 			case 5:
+				reservarFerramenta(ferramentas,codigoEmprestimo,contador);
 				break;
 			case 6:
+				//devolverFerramenta();
 				break;
 			case 7:
 				break;
