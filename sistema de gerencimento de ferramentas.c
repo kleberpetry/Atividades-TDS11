@@ -71,24 +71,23 @@ void atualizarQuantidade(ferramenta ferramentas[],int contador){
 	}
 	
 }
-void reservarFerramenta(ferramenta ferramentas[],int codEmprestimo,int contador){
-	emprestimo emprestado[100];
+void reservarFerramenta(ferramenta ferramentas[],int codEmprestimo,emprestimo emprestar[],int contador){
 	int qtde;
 	system("cls");
 	fflush(stdin);
 	printf("Digite o nome do locatário: ");
-	gets(emprestado[codEmprestimo].nomeLocatario);
+	gets(emprestar[codEmprestimo].nomeLocatario);
 	printf("digite o codigo da ferramenta: ");
-	scanf("%d",&emprestado[codEmprestimo].ferramentaEmprestada);
+	scanf("%d",&emprestar[codEmprestimo].ferramentaEmprestada);
 	printf("Digite a quantidade de ferramentas: ");
 	scanf("%d",&qtde);
 	fflush(stdin);
 	printf("Digite a data de saida:");
-	gets(emprestado[codEmprestimo].dataSaida);
+	gets(emprestar[codEmprestimo].dataSaida);
 	//-------------------------------
 	int x;
 	for(x=0;x<contador;x++){
-		if(emprestado[codEmprestimo].ferramentaEmprestada==ferramentas[x].codigo){
+		if(emprestar[codEmprestimo].ferramentaEmprestada==ferramentas[x].codigo){
 			if(qtde<ferramentas[x].disponivel){
 				ferramentas[x].disponivel-=qtde;
 				printf("\nEmprestimo realizado com sucesso!\n");
@@ -101,7 +100,9 @@ void reservarFerramenta(ferramenta ferramentas[],int codEmprestimo,int contador)
 		}
 	}
 }
-void devolverFerramenta();
+void devolverFerramenta(){
+	
+}
 int menu(){
 	int opcao;
 	system("cls");
@@ -121,6 +122,7 @@ int main(){
 	setlocale(LC_ALL, "Portuguese");
 	int opcao,codigoEmprestimo=0,contador=0;
 	ferramenta ferramentas[100];
+	emprestimo emprestar[100];
 	do{
 		opcao=menu();
 		switch(opcao){
@@ -138,7 +140,7 @@ int main(){
 				atualizarQuantidade(ferramentas,contador);
 				break;
 			case 5:
-				reservarFerramenta(ferramentas,codigoEmprestimo,contador);
+				reservarFerramenta(ferramentas,codigoEmprestimo,emprestar,contador);
 				break;
 			case 6:
 				//devolverFerramenta();
