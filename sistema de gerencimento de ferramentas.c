@@ -106,17 +106,23 @@ void devolverFerramenta(){
 
 
 void listarEmprestimo(emprestimo emprestar[],int codEmprestimo,ferramenta ferramentas[],int contador){
-	int x,y;
-	for(x=0;x<codEmprestimo;x++){
-		printf("Nome locatario: %s",emprestar[x].nomeLocatario);
-		for(y=0;y<contador;y++){
-			if(emprestar[x].ferramentaEmprestada==ferramentas[y].codigo){
-				printf("Ferramenta: %s",ferramentas[y].nome);
-				break;
+	int x,y,z;
+	for(x=0;x<=codEmprestimo;x++){
+		
+			printf("\nNome locatario: %s",emprestar[x].nomeLocatario);
+			for(y=0;y<contador;y++){
+				if(emprestar[x].ferramentaEmprestada==ferramentas[y].codigo){
+					printf("\nFerramenta: %s",ferramentas[y].nome);
+					break;
+				}
 			}
+			printf("\ndata da retirada: %s\n",emprestar[x].dataSaida);
 		}
-		printf("data da retirada: %s",emprestar[x].dataSaida);
-	}
+		
+		
+		
+	
+	system("pause");
 }
 int menu(){
 	int opcao;
@@ -162,7 +168,7 @@ int main(){
 				//devolverFerramenta();
 				break;
 			case 7:
-				//listarEmprestimos();
+				listarEmprestimo(emprestar,codigoEmprestimo,ferramentas,contador);
 				break;
 			case 8:
 				break;
@@ -170,7 +176,7 @@ int main(){
 				printf("\nOpção inválida!\n");
 				system("pause");
 		}
-	}while(opcao!=7);
+	}while(opcao!=8);
 	return 0;
 }
 
