@@ -100,8 +100,21 @@ void reservarFerramenta(ferramenta ferramentas[],int codEmprestimo,emprestimo em
 		}
 	}
 }
-void devolverFerramenta(){
-	
+void devolverFerramenta(ferramenta ferramentas[],int codEmprestimo,emprestimo emprestar[],int contador){
+	int x,codDev,qtde;
+	system("cls");
+	printf("\nDigite o codigo da ferramenta que irá devolver: ");
+	scanf("%d",&codDev);
+	for(x=0;x<contador;x++){
+		if(codDev==emprestar[x].ferramentaEmprestada){
+			printf("\nquantas estão sendo devolvidas: ");
+			scanf("%d",&qtde);
+			ferramentas[x].disponivel+=qtde;
+			printf("\nDevolução feita com sucesso");
+			break;
+		}
+	}
+	system("pause");	
 }
 
 
@@ -165,7 +178,7 @@ int main(){
 				reservarFerramenta(ferramentas,codigoEmprestimo,emprestar,contador);
 				break;
 			case 6:
-				//devolverFerramenta();
+				devolverFerramenta(ferramentas,codigoEmprestimo,emprestar,contador);
 				break;
 			case 7:
 				listarEmprestimo(emprestar,codigoEmprestimo,ferramentas,contador);
