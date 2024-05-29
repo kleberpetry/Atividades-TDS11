@@ -88,7 +88,7 @@ void reservarFerramenta(ferramenta ferramentas[],int codEmprestimo,emprestimo em
 	int x;
 	for(x=0;x<contador;x++){
 		if(emprestar[codEmprestimo].ferramentaEmprestada==ferramentas[x].codigo){
-			if(qtde<ferramentas[x].disponivel){
+			if(qtde<=ferramentas[x].disponivel){
 				ferramentas[x].disponivel-=qtde;
 				printf("\nEmprestimo realizado com sucesso!\n");
 				system("pause");
@@ -103,6 +103,21 @@ void reservarFerramenta(ferramenta ferramentas[],int codEmprestimo,emprestimo em
 void devolverFerramenta(){
 	
 }
+
+
+void listarEmprestimo(emprestimo emprestar[],int codEmprestimo,ferramenta ferramentas[],int contador){
+	int x,y;
+	for(x=0;x<codEmprestimo;x++){
+		printf("Nome locatario: %s",emprestar[x].nomeLocatario);
+		for(y=0;y<contador;y++){
+			if(emprestar[x].ferramentaEmprestada==ferramentas[y].codigo){
+				printf("Ferramenta: %s",ferramentas[y].nome);
+				break;
+			}
+		}
+		printf("data da retirada: %s",emprestar[x].dataSaida);
+	}
+}
 int menu(){
 	int opcao;
 	system("cls");
@@ -112,7 +127,8 @@ int menu(){
 	printf("\n4- atualizar quantidade");
 	printf("\n5- reservar ferramenta");
 	printf("\n6- devolver ferramenta");
-	printf("\n7- sair");
+	printf("\n7- listar emprestimo");
+	printf("\n8- sair");
 	printf("\nOpção: ");
 	scanf("%d",&opcao);
 	return opcao;	
@@ -146,6 +162,9 @@ int main(){
 				//devolverFerramenta();
 				break;
 			case 7:
+				//listarEmprestimos();
+				break;
+			case 8:
 				break;
 			default:
 				printf("\nOpção inválida!\n");
