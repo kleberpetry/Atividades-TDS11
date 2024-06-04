@@ -64,9 +64,15 @@ void atualizarQuantidade(ferramenta ferramentas[],int contador){
 		if(codigo==ferramentas[x].codigo){
 			printf("\nDigite a nova quantidade de ferramentas:");
 			scanf("%d",&novaQuantidade);
-			diferencaQuantidade=novaQuantidade-ferramentas[x].quantidade;
-			ferramentas[x].quantidade=novaQuantidade;
-			ferramentas[x].disponivel+=diferencaQuantidade;
+			if(novaQuantidade>=0){
+				diferencaQuantidade=novaQuantidade-ferramentas[x].quantidade;
+				ferramentas[x].quantidade=novaQuantidade;
+				ferramentas[x].disponivel+=diferencaQuantidade;
+				break;
+			}else{
+				printf("\nValores negativos não são permitidos!\n");
+				system("pause");
+			}
 		}
 	}
 	
