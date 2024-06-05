@@ -12,11 +12,12 @@ typedef struct{
 typedef struct{
 	char nomeLocatario[40];
 	int ferramentaEmprestada;
+	int qtdeEmprestada;
 	char dataEntrada[40];
 	char dataSaida[40];
 }emprestimo;
 
-
+//1- função de cadastro
 void cadastrarFerramentas(ferramenta ferramentas[],int contador){
 	system("cls");
 	ferramentas[contador].codigo=contador+1;
@@ -27,6 +28,7 @@ void cadastrarFerramentas(ferramenta ferramentas[],int contador){
 	scanf("%d",&ferramentas[contador].quantidade);
 	ferramentas[contador].disponivel=ferramentas[contador].quantidade;
 }
+//2- função de listar as ferramentas cadastradas
 void listarFerramentas(ferramenta ferramentas[],int contador){
 	int x;
 	for(x=0;x<contador;x++){
@@ -37,6 +39,7 @@ void listarFerramentas(ferramenta ferramentas[],int contador){
 	}
 	system("pause");
 }
+//3- função de buscar as ferramentas por nome
 void buscarFerramentas(ferramenta ferramentas[],int contador){
 	int x,igual;
 	char nomeFerramenta[40];
@@ -55,11 +58,15 @@ void buscarFerramentas(ferramenta ferramentas[],int contador){
 		}
 	}
 }
+//4- função de atualização da quantidade de ferramentas
 void atualizarQuantidade(ferramenta ferramentas[],int contador){
 	int x,codigo,novaQuantidade,diferencaQuantidade;
 	system("cls");
-	printf("\nDigite o codigo da ferramenta: ");
-	scanf("%d",&codigo);
+	do{
+		system("cls");
+		printf("\nDigite o codigo da ferramenta: ");
+		scanf("%d",&codigo);
+	} while(codigo != ferramentas[codigo - 1].codigo);
 	for(x=0;x<contador;x++){
 		if(codigo==ferramentas[x].codigo){
 			printf("\nDigite a nova quantidade de ferramentas:");
@@ -77,16 +84,26 @@ void atualizarQuantidade(ferramenta ferramentas[],int contador){
 	}
 	
 }
+//5- função de reserva de ferramentas
 void reservarFerramenta(ferramenta ferramentas[],int codEmprestimo,emprestimo emprestar[],int contador){
 	int qtde;
 	system("cls");
 	fflush(stdin);
 	printf("Digite o nome do locatário: ");
 	gets(emprestar[codEmprestimo].nomeLocatario);
-	printf("digite o codigo da ferramenta: ");
-	scanf("%d",&emprestar[codEmprestimo].ferramentaEmprestada);
-	printf("Digite a quantidade de ferramentas: ");
-	scanf("%d",&qtde);
+	do{
+		//system("cls");
+		printf("\nDigite o codigo da ferramenta: ");
+		scanf("%d",&emprestar[codEmprestimo].ferramentaEmprestada);
+	} while(emprestar[codEmprestimo].ferramentaEmprestada != ferramentas[emprestar[codEmprestimo].ferramentaEmprestada - 1].codigo);
+	//printf("digite o codigo da ferramenta: ");
+	//scanf("%d",&emprestar[codEmprestimo].ferramentaEmprestada);
+	do{
+		printf("Digite a quantidade de ferramentas: ");
+		scanf("%d",&qtde);
+		
+	}while(qtde<0);
+	emprestar[codEmprestimo].qtdeEmprestada=qtde;		
 	fflush(stdin);
 	printf("Digite a data de saida:");
 	gets(emprestar[codEmprestimo].dataSaida);
@@ -94,28 +111,37 @@ void reservarFerramenta(ferramenta ferramentas[],int codEmprestimo,emprestimo em
 	int x;
 	for(x=0;x<contador;x++){
 		if(emprestar[codEmprestimo].ferramentaEmprestada==ferramentas[x].codigo){
-			if(qtde<=ferramentas[x].disponivel){
+			if(qtde<=ferramentas[x].disponivel && qtde>=0){
 				ferramentas[x].disponivel-=qtde;
 				printf("\nEmprestimo realizado com sucesso!\n");
 				system("pause");
 				
 			}else{
-				printf("\nQuantidade de retirada superior a disponivel!\n");
+				printf("\nQuantidade de retirada superior a disponivel ou valor negativo!\n");
 				system("pause");
 			}
 		}
 	}
 }
+//6- função de devolução de ferramentas
 void devolverFerramenta(ferramenta ferramentas[],int codEmprestimo,emprestimo emprestar[],int contador){
 	int x,codDev,qtde;
 	system("cls");
-	printf("\nDigite o codigo da ferramenta que irá devolver: ");
-	scanf("%d",&codDev);
+	do{
+		//system("cls");
+		printf("\nDigite o codigo da ferramenta: ");
+		scanf("%d",&codDev);
+	} while(codDev!= emprestar[ferramentas[codEmprestimo -1].codigo - 1].ferramentaEmprestada );
+//	printf("\nDigite o codigo da ferramenta que irá devolver: ");
+	
 	for(x=0;x<contador;x++){
 		if(codDev==emprestar[x].ferramentaEmprestada){
 			printf("\nquantas estão sendo devolvidas: ");
 			scanf("%d",&qtde);
 			ferramentas[x].disponivel+=qtde;
+			emprestar[x].qtdeEmprestada-=qtde;
+			
+			
 			printf("\nDevolução feita com sucesso");
 			break;
 		}
@@ -123,26 +149,30 @@ void devolverFerramenta(ferramenta ferramentas[],int codEmprestimo,emprestimo em
 	system("pause");	
 }
 
-
+//7- função de listagem de emprestimo de ferramentas
 void listarEmprestimo(emprestimo emprestar[],int codEmprestimo,ferramenta ferramentas[],int contador){
 	int x,y,z;
-	for(x=0;x<=codEmprestimo;x++){
-		
+	if(codEmprestimo>=1){
+		for(x=0;x<codEmprestimo;x++){
 			printf("\nNome locatario: %s",emprestar[x].nomeLocatario);
 			for(y=0;y<contador;y++){
 				if(emprestar[x].ferramentaEmprestada==ferramentas[y].codigo){
 					printf("\nFerramenta: %s",ferramentas[y].nome);
+					printf("\nqtde: %d",emprestar[x].qtdeEmprestada);
 					break;
 				}
 			}
 			printf("\ndata da retirada: %s\n",emprestar[x].dataSaida);
-		}
+		}	
+	}
+	
 		
 		
 		
 	
 	system("pause");
 }
+//função principal
 int menu(){
 	int opcao;
 	system("cls");
@@ -182,6 +212,7 @@ int main(){
 				break;
 			case 5:
 				reservarFerramenta(ferramentas,codigoEmprestimo,emprestar,contador);
+				codigoEmprestimo++;
 				break;
 			case 6:
 				devolverFerramenta(ferramentas,codigoEmprestimo,emprestar,contador);
